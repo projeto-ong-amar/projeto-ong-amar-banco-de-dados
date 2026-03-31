@@ -1,6 +1,6 @@
 
 CREATE DATABASE IF NOT EXISTS projeto_amar;
-USE projet_amar;
+USE projeto_amar;
 
 CREATE TABLE IF NOT EXISTS categoria (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,

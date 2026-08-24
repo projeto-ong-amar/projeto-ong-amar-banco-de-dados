@@ -4,7 +4,8 @@ USE projeto_amar;
 CREATE TABLE IF NOT EXISTS categoria (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome VARCHAR(45) NOT NULL,
-    descricao VARCHAR(45) NOT NULL
+    descricao VARCHAR(45) NOT null,
+    status VARCHAR(45) not null default 'ATIVO'	
 );
 
 CREATE TABLE IF NOT EXISTS produto (

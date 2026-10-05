@@ -4,7 +4,7 @@ USE projeto_amar;
 CREATE TABLE IF NOT EXISTS produto (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome VARCHAR(45) NOT NULL,
-    categoria ENUM('ALIMENTO', 'PRODUTOS DE HIGIENE'),
+    categoria ENUM('ALIMENTOS', 'PRODUTOS DE HIGIENE'),
     unidade_medida VARCHAR(45),
     status VARCHAR(45) NOT NULL DEFAULT 'ATIVO'
 );

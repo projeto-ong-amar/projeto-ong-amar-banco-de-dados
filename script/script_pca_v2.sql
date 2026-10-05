@@ -24,7 +24,17 @@ CREATE TABLE IF NOT EXISTS usuario (
     email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     tipo_usuario ENUM('ADMINISTRADOR', 'VOLUNTARIO') NOT NULL,
-    status VARCHAR(45) NOT NULL
+    status VARCHAR(45) NOT NULL,
+    versao_token INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS token_recuperacao_senha (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    token_hash CHAR(64) NOT NULL UNIQUE,
+    expira_em DATETIME NOT NULL,
+    utilizado BOOLEAN NOT NULL DEFAULT FALSE,
+    fk_usuario INT NOT NULL,
+    CONSTRAINT fk_token_recuperacao_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS movimentacao (
@@ -35,7 +45,6 @@ CREATE TABLE IF NOT EXISTS movimentacao (
     motivo VARCHAR(255) NOT NULL,
     fk_produto INT NOT NULL,
     fk_usuario INT NOT NULL,
-    CONSTRAINT fk_movimentacao_produto FOREIGN KEY (fk_produto) REFERENCES produto(id),
     CONSTRAINT fk_movimentacao_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 

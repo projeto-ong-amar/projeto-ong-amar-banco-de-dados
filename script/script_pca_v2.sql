@@ -15,7 +15,10 @@ CREATE TABLE IF NOT EXISTS produto_lote (
     validade DATE,
     data_entrada DATE NOT NULL,
     fk_produto INT NOT NULL,
-    CONSTRAINT fk_lote_produto FOREIGN KEY (fk_produto) REFERENCES produto(id)
+
+    CONSTRAINT fk_lote_produto
+        FOREIGN KEY (fk_produto)
+        REFERENCES produto(id)
 );
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -34,7 +37,10 @@ CREATE TABLE IF NOT EXISTS token_recuperacao_senha (
     expira_em DATETIME NOT NULL,
     utilizado BOOLEAN NOT NULL DEFAULT FALSE,
     fk_usuario INT NOT NULL,
-    CONSTRAINT fk_token_recuperacao_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+
+    CONSTRAINT fk_token_recuperacao_usuario
+        FOREIGN KEY (fk_usuario)
+        REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS movimentacao (
@@ -45,7 +51,14 @@ CREATE TABLE IF NOT EXISTS movimentacao (
     motivo VARCHAR(255) NOT NULL,
     fk_produto INT NOT NULL,
     fk_usuario INT NOT NULL,
-    CONSTRAINT fk_movimentacao_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+
+    CONSTRAINT fk_movimentacao_produto
+        FOREIGN KEY (fk_produto)
+        REFERENCES produto(id),
+
+    CONSTRAINT fk_movimentacao_usuario
+        FOREIGN KEY (fk_usuario)
+        REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS movimentacao_estoque (
@@ -53,23 +66,33 @@ CREATE TABLE IF NOT EXISTS movimentacao_estoque (
     quantidade INT NOT NULL,
     fk_movimentacao INT NOT NULL,
     fk_produto_lote INT NOT NULL,
-    CONSTRAINT fk_movimentacao_estoque_movimentacao FOREIGN KEY (fk_movimentacao) REFERENCES movimentacao(id),
-    CONSTRAINT fk_movimentacao_estoque_produto_lote FOREIGN KEY (fk_produto_lote) REFERENCES produto_lote(id)
+
+    CONSTRAINT fk_movimentacao_estoque_movimentacao
+        FOREIGN KEY (fk_movimentacao)
+        REFERENCES movimentacao(id),
+
+    CONSTRAINT fk_movimentacao_estoque_produto_lote
+        FOREIGN KEY (fk_produto_lote)
+        REFERENCES produto_lote(id)
 );
 
 CREATE TABLE IF NOT EXISTS configuracao_metrica (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     estoque_baixo INT NOT NULL,
     risco_vencimento_dias INT NOT NULL,
     vencimento_proximo_dias INT NOT NULL,
     sem_movimentacao_dias INT NOT NULL,
     periodo_indicadores_dias INT NOT NULL,
     data_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    fk_usuario_atualizacao INT NULL
+    fk_usuario_atualizacao INT NULL,
+
+    CONSTRAINT fk_configuracao_metrica_usuario
+        FOREIGN KEY (fk_usuario_atualizacao)
+        REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS configuracao_alerta_dashboard (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     vencimento_proximo BOOLEAN NOT NULL,
     estoque_baixo BOOLEAN NOT NULL,
     sem_doacoes BOOLEAN NOT NULL,
@@ -85,5 +108,9 @@ CREATE TABLE IF NOT EXISTS preferencia_notificacao (
     novas_saidas BOOLEAN NOT NULL DEFAULT TRUE,
     email_notificacao VARCHAR(255) NULL,
     data_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    fk_usuario INT NOT NULL
+    fk_usuario INT NOT NULL,
+
+    CONSTRAINT fk_preferencia_notificacao_usuario
+        FOREIGN KEY (fk_usuario)
+        REFERENCES usuario(id)
 );
